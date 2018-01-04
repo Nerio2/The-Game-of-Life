@@ -77,8 +77,3 @@ function auto(a)
     if (a) clearInterval(interval);
     
 }
-
-function stopauto()
-{
-    clearInterval(interval);
-}
