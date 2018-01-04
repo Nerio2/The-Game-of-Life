@@ -1,10 +1,18 @@
 var x = 50;
 var y = 50;
-var interval
+var interval;
+var calosc = new Array(50);
+for (var i = 0; i < 50; i++)
+    calosc[i] = new Array(50);
+var nowe = new Array(50);
+for (var i = 0; i < 50; i++)
+    nowe[i] = new Array(50);
 function render()
 {
-    for (var i = 0; i < x; i++) {
-        for (var j = 0; j < y; j++) {
+    for (var i = 0; i < x; i++)
+    {
+        for (var j = 0; j < y; j++)
+        {
             document.write("<div onclick=\"zaznacz(this)\" class=\"TGLnz\" id=\"" + i + "x" + j + "\"></div>");
             if (j == x - 1) document.getElementById(i + "x0").style.clear = "both";
         }
@@ -18,20 +26,15 @@ function zaznacz(obj)
     else obj.className = "TGLnz";
 }
 
-function ruch()
+function ruch(czysc)
 {
-    var calosc = new Array(50);
-    for (var i = 0; i < 50; i++)
-        calosc[i] = new Array(50);
-    var nowe = new Array(50);
-    for (var i = 0; i < 50; i++)
-        nowe[i] = new Array(50);
     for (var i = 0; i < x; i++)
     {
         for (var j = 0; j < y; j++)
         {
             if (document.getElementById(i + "x" + j).className != "TGLzz")
                 calosc[i][j] = 0;
+            else if (czysc) calosc[i][j] = 0;
             else calosc[i][j] = 1;
         }
     }
@@ -76,4 +79,17 @@ function auto(a)
     else clearInterval(interval);
     if (a) clearInterval(interval);
     
+}
+
+function clear()
+{
+    for (var i = 0; i < x; i++)
+    {
+        for (var j = 0; j < y; j++)
+        {
+            document.getElementById(i + "x" + j).className = "TGLnz";
+            calosc[i][j] = 0;
+            nowe[i][j] = 0;
+        }
+    }
 }
