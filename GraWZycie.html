@@ -4,16 +4,19 @@
     <title>
         The Game of Life
     </title>
+    <script type="text/javascript" src="GraWZycie.js"></script>
     <style>
-        *{
+        * {
             margin: 0 auto;
         }
-        .TGLnz{
-            height:10px;
-            width:10px;
-            background-color:burlywood;
-            float:left;
+
+        .TGLnz {
+            height: 10px;
+            width: 10px;
+            background-color: burlywood;
+            float: left;
         }
+
         .TGLzz {
             height: 10px;
             width: 10px;
@@ -25,77 +28,13 @@
 <body>
     <h3 style="margin-left:180px;">Gra w zycie!</h3><br/>
          <form>
+             <span style="margin-left:80px;">Auto:</span> <input type="text" id="time"/>
+             <input type="button" onclick="auto(false)" value="Start" />
+             <input type="button" onclick="auto(true)" value="Stop" /><br /><br />
              <input type="button" onclick="ruch()" value="Ruch" style="margin-left:200px; margin-bottom:10px;"/>
          </form>
     <div id="gra">
-        <script>
-            var x=50;
-            var y=50;
-            for (var i = 0; i < x; i++)
-            {
-                for (var j = 0; j < y; j++)
-                {
-                    document.write("<div onclick=\"zaznacz(this)\" class=\"TGLnz\" id=\"" + i + "x" + j + "\"></div>");
-                    if (j == x-1) document.getElementById(i + "x0").style.clear = "both";
-                }
-            }
-
-            function zaznacz(obj)
-            {
-                if (obj.className != "TGLzz")
-                    obj.className = "TGLzz";
-                else obj.className = "TGLnz";
-            }
-            function ruch()
-            {
-                var calosc = new Array(50);
-                for (var i = 0; i < 50; i++)
-                    calosc[i] = new Array(50);
-                var nowe = new Array(50);
-                for (var i = 0; i < 50; i++)
-                    nowe[i] = new Array(50);
-                for (var i = 0; i < x; i++)
-                {
-                   for (var j = 0; j < y; j++)
-                  {
-                       if (document.getElementById(i + "x" + j).className != "TGLzz")
-                           calosc[i][j] = 0;
-                     else calosc[i][j] = 1;
-                  }
-                }
-    
-             for (var i = 0; i < x; i++)
-             {
-                  for (var j = 0; j < y; j++)
-                 {
-                      var sasiedzi = 0;
-                      if (i > 0 && j > 0 && calosc[i - 1][j - 1] == 1) sasiedzi++;
-                      if (i > 0 && calosc[i - 1][j] == 1) sasiedzi++;
-                      if (i > 0 && j < 49 && calosc[i - 1][j + 1] == 1) sasiedzi++;
-                      if (j > 0 && calosc[i][j - 1] == 1) sasiedzi++;
-                      if (j < 49 && calosc[i][j + 1] == 1) sasiedzi++;
-                      if (i < 49 && j > 0 && calosc[i + 1][j - 1] == 1) sasiedzi++;
-                      if (i < 49 && calosc[i + 1][j] == 1) sasiedzi++;
-                      if (i < 49 && j < 49 && calosc[i + 1][j + 1] == 1) sasiedzi++;
-
-                      if (calosc[i][j] == 0 && sasiedzi == 3) nowe[i][j] = 1;
-                      else if (calosc[i][j] == 1 && sasiedzi > 3 || sasiedzi < 2) nowe[i][j] = 0;
-                      else if (calosc[i][j]==1) nowe[i][j] = 1;
-                 }
-             }
-             for (var i = 0; i < x; i++)
-             {
-                 for (var j = 0; j < y; j++)
-                 {
-                     if (nowe[i][j] == 1) document.getElementById(i + "x" + j).className = "TGLzz";
-                     else document.getElementById(i + "x" + j).className = "TGLnz";
-                 }
-             }
-            }
-        </script>
-
-
-
+        <script>render();</script>
     </div>
     <br/>
     Zasady:
