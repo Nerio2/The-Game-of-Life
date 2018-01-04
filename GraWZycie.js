@@ -80,16 +80,3 @@ function auto(a)
     if (a) clearInterval(interval);
     
 }
-
-function clear()
-{
-    for (var i = 0; i < x; i++)
-    {
-        for (var j = 0; j < y; j++)
-        {
-            document.getElementById(i + "x" + j).className = "TGLnz";
-            calosc[i][j] = 0;
-            nowe[i][j] = 0;
-        }
-    }
-}
