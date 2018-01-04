@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        The Game of Life
+    </title>
+    <style>
+        *{
+            margin: 0 auto;
+        }
+        .TGLnz{
+            height:10px;
+            width:10px;
+            background-color:burlywood;
+            float:left;
+        }
+        .TGLzz {
+            height: 10px;
+            width: 10px;
+            background-color: red;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <h3 style="margin-left:180px;">Gra w zycie!</h3><br/>
+         <form>
+             <input type="button" onclick="ruch()" value="Ruch" style="margin-left:200px; margin-bottom:10px;"/>
+         </form>
+    <div id="gra">
+        <script>
+            var x=50;
+            var y=50;
+            for (var i = 0; i < x; i++)
+            {
+                for (var j = 0; j < y; j++)
+                {
+                    document.write("<div onclick=\"zaznacz(this)\" class=\"TGLnz\" id=\"" + i + "x" + j + "\"></div>");
+                    if (j == x-1) document.getElementById(i + "x0").style.clear = "both";
+                }
+            }
+
+            function zaznacz(obj)
+            {
+                if (obj.className != "TGLzz")
+                    obj.className = "TGLzz";
+                else obj.className = "TGLnz";
+            }
+            function ruch()
+            {
+                var calosc = new Array(50);
+                for (var i = 0; i < 50; i++)
+                    calosc[i] = new Array(50);
+                var nowe = new Array(50);
+                for (var i = 0; i < 50; i++)
+                    nowe[i] = new Array(50);
+                for (var i = 0; i < x; i++)
+                {
+                   for (var j = 0; j < y; j++)
+                  {
+                       if (document.getElementById(i + "x" + j).className != "TGLzz")
+                           calosc[i][j] = 0;
+                     else calosc[i][j] = 1;
+                  }
+                }
+    
+             for (var i = 0; i < x; i++)
+             {
+                  for (var j = 0; j < y; j++)
+                 {
+                      var sasiedzi = 0;
+                      if (i > 0 && j > 0 && calosc[i - 1][j - 1] == 1) sasiedzi++;
+                      if (i > 0 && calosc[i - 1][j] == 1) sasiedzi++;
+                      if (i > 0 && j < 49 && calosc[i - 1][j + 1] == 1) sasiedzi++;
+                      if (j > 0 && calosc[i][j - 1] == 1) sasiedzi++;
+                      if (j < 49 && calosc[i][j + 1] == 1) sasiedzi++;
+                      if (i < 49 && j > 0 && calosc[i + 1][j - 1] == 1) sasiedzi++;
+                      if (i < 49 && calosc[i + 1][j] == 1) sasiedzi++;
+                      if (i < 49 && j < 49 && calosc[i + 1][j + 1] == 1) sasiedzi++;
+
+                      if (calosc[i][j] == 0 && sasiedzi == 3) nowe[i][j] = 1;
+                      else if (calosc[i][j] == 1 && sasiedzi > 3 || sasiedzi < 2) nowe[i][j] = 0;
+                      else if (calosc[i][j]==1) nowe[i][j] = 1;
+                 }
+             }
+             for (var i = 0; i < x; i++)
+             {
+                 for (var j = 0; j < y; j++)
+                 {
+                     if (nowe[i][j] == 1) document.getElementById(i + "x" + j).className = "TGLzz";
+                     else document.getElementById(i + "x" + j).className = "TGLnz";
+                 }
+             }
+            }
+        </script>
+
+
+
+    </div>
+    <br/>
+    Zasady:
+    Klikajac na plansze odpowiednio zaznaczasz lub odznaczasz zywe komorki.<br/>
+    Jezeli komorka zyje, po kliknieciu przycisku "Ruch" przezyje ona jedynie gdy ma 2 lub 3 sasiadow.<br/>
+    Majac za malo sasiadow umiera przez samotnosc, majac za duzo umiera przez zatloczenie.<br/>
+    Nowa komorka moze sie narodzic gdy 3 komorki obok zyja.<br/>
+</body>
+</html>
