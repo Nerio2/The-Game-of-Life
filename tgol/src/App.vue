@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <TheGameOfLife></TheGameOfLife>
+    <TheGameOfLife :rows="rows" :cols="cols"></TheGameOfLife>
   </div>
 </template>
 
@@ -11,6 +11,12 @@ export default {
   name: 'app',
   components: {
     TheGameOfLife
+  },
+  data() {
+    return {
+      rows: 30,
+      cols: 50
+    }
   }
 }
 </script>
