@@ -14,8 +14,8 @@ export default {
   },
   data() {
     return {
-      rows: 30,
-      cols: 50
+      rows: 7,
+      cols: 5
     }
   }
 }
