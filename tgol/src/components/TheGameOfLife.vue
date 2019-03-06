@@ -3,7 +3,7 @@
         <h2>The Game Of Life</h2>
         <section v-bind:key="y" class="row" v-for="y in rows" @click="move(2,y)">
             <TheGameOfLifeUnit v-bind:style="{'width':unit_width+'%'}" v-bind:key="x" v-for="x in cols"
-                               @click="move(x,y)" :alive="status[y-1][x-1]"></TheGameOfLifeUnit>
+                               v-on:click="move(x,y)" :alive="status[y-1][x-1]"></TheGameOfLifeUnit>
             {{status[y-1]}}
         </section>
     </div>
@@ -30,18 +30,19 @@
         },
         methods: {
             move(x, y) {
-                alert(this.status[y - 1][x - 1]);
-                this.status[y - 1][x - 1] = !this.status[y - 1][x - 1];
+                this.status.z[x - 1] = !this.status.z[x - 1];
+                let z=y-1
+                alert(this.status.z[x - 1]);
             }
         },
         created() {
-            let z = this.rows > this.cols ? this.rows : this.cols;
             for (let y = 0; y < this.rows; y++) {
                 this.status.push([]);
                 for (let x = 0; x < this.cols; x++) {
                     this.status[y].push(false);
                 }
             }
+            let z = this.rows > this.cols ? this.cols : this.rows;
             for (let i = 0; i < z; i++) {
                 this.status[i][i] = true;
             }

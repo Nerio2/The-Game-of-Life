@@ -9,11 +9,6 @@
         props: {
             alive: Boolean
         },
-        computed: {
-            style() {
-                return 'width:' + this.width + '%}';
-            }
-        },
         methods: {
             getClass() {
                 if (this.alive) return "life";
