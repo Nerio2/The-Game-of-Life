@@ -25,9 +25,9 @@
 </script>
 <style scoped>
     #TheGameOfLifeUnit {
-        float: left;
-        height: 20px;
+        height: 100%;
         box-shadow: inset 0px 0px 1px 0px rgba(0, 0, 0, 0.75);
+        width:100%;
     }
 
     .life {

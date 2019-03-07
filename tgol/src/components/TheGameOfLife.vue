@@ -1,11 +1,16 @@
 <template>
     <div id="TheGameOfLife">
         <h2>The Game Of Life</h2>
-        <section v-bind:key="y" class="row" v-for="y in rows" @click="move(2,y)">
-            <TheGameOfLifeUnit v-bind:style="{'width':unit_width+'%'}" v-bind:key="x" v-for="x in cols"
-                               v-on:click="move(x,y)" :alive="status[y-1][x-1]"></TheGameOfLifeUnit>
-            {{status[y-1]}}
+        <button @click="move()">Move</button>
+        <section v-bind:key="y" class="row" id="row" v-for="y in rows">
+            <section class="tgolUnit" v-bind:key="x" v-for="x in cols" @click="change(x,y)"
+                     v-bind:style="{'width':unit_width+'%','height':unit_height+'px'}">
+                <TheGameOfLifeUnit :alive="status[y-1][x-1]">{{getNeighbours(x-1,y-1)}}</TheGameOfLifeUnit>
+
+            </section>
         </section>
+        alive: {{alive}}
+        ticks: {{ticks}}
     </div>
 </template>
 
@@ -24,15 +29,53 @@
         data() {
             return {
                 unit_width: (100 / this.cols),
+                unit_height: 20,
                 status: [],
-                prevStatus: []
+                alive: 0,
+                ticks:0
             }
         },
         methods: {
-            move(x, y) {
-                this.status.z[x - 1] = !this.status.z[x - 1];
-                let z=y-1
-                alert(this.status.z[x - 1]);
+            change(x, y) {
+                this.status[y - 1][x - 1] = !this.status[y - 1][x - 1];
+                this.alive = 0;
+                this.status.forEach((row) => {
+                    row.forEach((col) => {
+                        if (col === true) this.alive++;
+                    });
+                });
+            },
+            move() {
+                this.ticks++;
+                let nextStatus=[];
+                for (let y = 0; y < this.rows; y++) {
+                    nextStatus.push([]);
+                    for (let x = 0; x < this.cols; x++) {
+                        if (this.status[y][x]) {
+                            nextStatus[y].push(!(this.getNeighbours(x, y) > 3 || this.getNeighbours(x, y) < 2));
+                        } else {
+                            nextStatus[y].push((this.getNeighbours(x, y) === 3));
+                        }
+                    }
+                }
+                this.status = nextStatus;
+                this.alive = 0;
+                for (let y = 0; y < this.rows; y++) {
+                    for (let x = 0; x < this.cols; x++) {
+                        if (this.status[y][x] === true)
+                            this.alive++;
+                    }
+                }
+            },
+            getNeighbours(x, y) {
+                let count = 0;
+                for (let i = -1; i <= 1; i++) {
+                    for (let j = -1; j <= 1; j++) {
+                        if ((y + i >= 0 && y + i < this.rows) && (x + j >= 0 && x + j < this.cols) && this.status[y + i][x + j] && (i !== 0 || j !== 0))
+                            count++;
+                    }
+                }
+                return count;
             }
         },
         created() {
@@ -51,4 +94,7 @@
 </script>
 
 <style lang="scss" scoped>
+    .tgolUnit {
+        float: left;
+    }
 </style>
