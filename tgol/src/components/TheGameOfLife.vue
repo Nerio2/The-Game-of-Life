@@ -1,14 +1,16 @@
 <template>
     <div id="TheGameOfLife">
         <h2>The Game Of Life</h2>
-        <button @click="move()">Move</button>
-        <section v-bind:key="y" class="row" id="row" v-for="y in rows">
-            <section class="tgolUnit" v-bind:key="x" v-for="x in cols" @click="change(x,y)"
-                     v-bind:style="{'width':unit_width+'%','height':unit_height+'px'}">
+        <button @click="move()">Move</button><br>
+        <input type="number" placeholder="Interval" id="interval">
+        <button @click="auto()">Auto</button>
+        <div v-bind:key="y" v-for="y in rows">
+            <div class="tgolUnit" v-bind:key="x" v-for="x in cols" @click="change(x,y)"
+                 v-bind:style="{'width':unit_width+'%'}">
                 <TheGameOfLifeUnit :alive="status[y-1][x-1]">{{getNeighbours(x-1,y-1)}}</TheGameOfLifeUnit>
 
-            </section>
-        </section>
+            </div>
+        </div>
         alive: {{alive}}
         ticks: {{ticks}}
     </div>
@@ -24,15 +26,15 @@
         },
         props: {
             rows: Number,
-            cols: Number
+            cols: Number,
+            rand: Boolean
         },
         data() {
             return {
                 unit_width: (100 / this.cols),
-                unit_height: 20,
                 status: [],
                 alive: 0,
-                ticks:0
+                ticks: 0
             }
         },
         methods: {
@@ -47,7 +49,7 @@
             },
             move() {
                 this.ticks++;
-                let nextStatus=[];
+                let nextStatus = [];
                 for (let y = 0; y < this.rows; y++) {
                     nextStatus.push([]);
                     for (let x = 0; x < this.cols; x++) {
@@ -96,5 +98,11 @@
 <style lang="scss" scoped>
     .tgolUnit {
         float: left;
+        height: 1vh;
+    }
+
+    #TheGameOfLife {
+        width: 100%;
+        height: 100%;
     }
 </style>

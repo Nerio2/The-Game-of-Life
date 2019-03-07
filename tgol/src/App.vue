@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <TheGameOfLife :rows="rows" :cols="cols"></TheGameOfLife>
+    <div class="row" style="height: 500px">
+      <div class="col m-2">
+        <TheGameOfLife :rows="rows" :cols="cols"></TheGameOfLife>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,8 +18,8 @@ export default {
   },
   data() {
     return {
-      rows: 20,
-      cols: 30
+      rows: 30,
+      cols: 50
     }
   }
 }
