@@ -1,10 +1,10 @@
 <template>
     <div id="TheGameOfLife">
         <h2>The Game Of Life</h2>
-        <button @click="move()">Move</button>
+        <button v-if="state=='Auto'" @click="move()">Move</button>
         <br>
-        <input type="number" placeholder="Interval" id="interval">
-        <button @click="auto()">Auto</button>
+        <input type="number" placeholder="Interval (s)" v-model="interval">
+        <button @click="auto()">{{state}}</button>
         <div v-bind:key="y" v-for="y in rows">
             <div class="tgolUnit" v-bind:key="x" v-for="x in cols" @click="change(x,y)"
                  v-bind:style="{'width':unit_width+'%'}">
@@ -35,7 +35,10 @@
                 unit_width: (100 / this.cols),
                 status: [],
                 alive: 0,
-                ticks: 0
+                ticks: 0,
+                state: "Auto",
+                auto_interval: null,
+                interval: null
             }
         },
         methods: {
@@ -44,7 +47,7 @@
                 this.alive += this.status[y - 1][x - 1] ? 1 : -1;
             },
             move() {
-                this.alive=0;
+                this.alive = 0;
                 this.ticks++;
                 let nextStatus = [];
                 for (let y = 0; y < this.rows; y++) {
@@ -55,7 +58,7 @@
                         } else {
                             nextStatus[y].push((this.getNeighbours(x, y) === 3));
                         }
-                        this.alive+=nextStatus[y][x] ? 1 : 0;
+                        this.alive += nextStatus[y][x] ? 1 : 0;
                     }
                 }
                 this.status = nextStatus;
@@ -69,6 +72,17 @@
                     }
                 }
                 return count;
+            },
+            auto() {
+                 if (this.state === "Auto") {
+                     this.auto_interval = setInterval(()=>{
+                         this.move();
+                     }, this.interval * 1000);
+                     this.state = "Stop";
+                 } else {
+                     clearInterval(this.auto_interval);
+                     this.state = "Auto";
+                 }
             }
         },
         created() {

@@ -18,8 +18,8 @@ export default {
   },
   data() {
     return {
-      rows: 60,
-      cols: 100
+      rows: 30,
+      cols: 50
     }
   }
 }
