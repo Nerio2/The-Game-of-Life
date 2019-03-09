@@ -1,7 +1,8 @@
 <template>
     <div id="TheGameOfLife">
         <h2>The Game Of Life</h2>
-        <button @click="move()">Move</button><br>
+        <button @click="move()">Move</button>
+        <br>
         <input type="number" placeholder="Interval" id="interval">
         <button @click="auto()">Auto</button>
         <div v-bind:key="y" v-for="y in rows">
@@ -40,14 +41,10 @@
         methods: {
             change(x, y) {
                 this.status[y - 1][x - 1] = !this.status[y - 1][x - 1];
-                this.alive = 0;
-                this.status.forEach((row) => {
-                    row.forEach((col) => {
-                        if (col === true) this.alive++;
-                    });
-                });
+                this.alive += this.status[y - 1][x - 1] ? 1 : -1;
             },
             move() {
+                this.alive=0;
                 this.ticks++;
                 let nextStatus = [];
                 for (let y = 0; y < this.rows; y++) {
@@ -58,16 +55,10 @@
                         } else {
                             nextStatus[y].push((this.getNeighbours(x, y) === 3));
                         }
+                        this.alive+=nextStatus[y][x] ? 1 : 0;
                     }
                 }
                 this.status = nextStatus;
-                this.alive = 0;
-                for (let y = 0; y < this.rows; y++) {
-                    for (let x = 0; x < this.cols; x++) {
-                        if (this.status[y][x] === true)
-                            this.alive++;
-                    }
-                }
             },
             getNeighbours(x, y) {
                 let count = 0;
@@ -86,10 +77,6 @@
                 for (let x = 0; x < this.cols; x++) {
                     this.status[y].push(false);
                 }
-            }
-            let z = this.rows > this.cols ? this.cols : this.rows;
-            for (let i = 0; i < z; i++) {
-                this.status[i][i] = true;
             }
         }
     }
